@@ -1,7 +1,7 @@
 # Instruções de como rodar o app
 
 ## deve-se instalar um docker e nele rodar o backend
-## usando o postman deve usar os comando de graphQL pra criar um usuario no banco de dados
+## usando o postman deve usar os comandos de graphQL pra criar um usuario no banco de dados
 ### http://IPDAMAQUINA:8080/graphql/
 ## body da requisição
 mutation registerNewClient (\$loginViaEmailData: LoginViaEmailInput, \$cpf: String!, \$name: String!, \$telephone: String!, \$birthDay: Date!, \$rg: String, \$gender: GenderDTO!) {
