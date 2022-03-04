@@ -1,0 +1,52 @@
+input AccreditedInfo {
+    cnpj: String!
+    name: String!
+    category: String!
+    subcategory: String!
+    couponOrigin: String!
+    active: Boolean!
+    code: String
+    logo: [Byte!]!
+    site: String
+    telephone: String!
+}
+
+input AccreditedInfoOptional {
+    cnpj: String
+    name: String
+    category: String
+    subcategory: String
+    couponOrigin: String
+    active: Boolean
+    code: String
+    logo: [Byte!]
+    site: String
+    telephone: String
+}
+
+type CommonResponseForAccredited {
+    commonResponse: CommonResponse!
+    genericAccredited: genericAccredited!
+}
+
+type genericAccredited {
+    # returns a object if the user is a customer
+    id: Long!
+    cnpj: String!
+    name: String!
+    category: String!
+    subcategory: String!
+    couponOrigin: String!
+    code: String
+    logo: String
+    site: String
+    telephone: String!
+    active: Boolean!
+    address: AddressDTO
+}
+
+type CommonResponseWithAccreditedUsers {
+    commonResponse: CommonResponse!
+    paginationInfo: PaginationInfo!
+    accreditedUsers: [genericAccredited]!
+}

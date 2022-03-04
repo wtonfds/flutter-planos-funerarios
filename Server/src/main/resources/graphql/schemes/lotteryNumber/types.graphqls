@@ -1,0 +1,17 @@
+type CommonResponseWithLotteryNumbers {
+    commonResponse: CommonResponse!
+    paginationInfo: PaginationInfo!
+    genericLotteryNumbers: [LotteryNumbersDTO]!
+}
+
+type LotteryNumbersDTO {
+    id:Long
+    originalNumber1:String
+    originalNumber2:String
+    originalNumber3:String
+    originalNumber4:String
+    originalNumber5:String
+    generatedNumbers:String
+    drawDay:Date
+    approvedBy: FarolUserBasicDTO
+}

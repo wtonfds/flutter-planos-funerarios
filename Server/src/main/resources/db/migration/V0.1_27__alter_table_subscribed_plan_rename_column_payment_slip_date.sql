@@ -1,0 +1,1 @@
+alter table frl_subscribed_plan rename payment_slip_date to payment_day;

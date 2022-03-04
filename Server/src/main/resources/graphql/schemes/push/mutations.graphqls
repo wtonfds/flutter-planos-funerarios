@@ -1,0 +1,6 @@
+extend type Mutation {
+    sendPushNotification(
+        clientIds: [Long]
+        message: String!
+    ): CommonResponseWithPushResult!
+}

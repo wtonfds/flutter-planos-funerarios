@@ -1,0 +1,6 @@
+extend type Query {
+    listProductsByAccreditedId(
+        accreditedId: Long!
+        paginate: Paginate
+    ): CommonResponseForAccreditedList
+}

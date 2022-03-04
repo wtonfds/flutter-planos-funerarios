@@ -1,0 +1,5 @@
+extend type Mutation {
+    updateCompanyInfo(
+        companyInfo: CompanyInfo!
+    ): CommonResponseWithCompanyInfo!
+}

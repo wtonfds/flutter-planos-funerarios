@@ -1,0 +1,31 @@
+extend type Query {
+    listPlanPriceTables(
+        filterByID: Long
+        filterByName: String
+        paginate: Paginate
+    ): CommonResponseWithPlanPriceTables
+
+    findPlanPriceTable(
+        id: Long!
+    ): CommonResponseWithPlanPriceTable
+
+    listUpgradePriceTables(
+        filterByID: Long
+        filterByName: String
+        paginate: Paginate
+    ): CommonResponseWithUpgradePriceTables
+
+    findUpgradePriceTable(
+        id: Long!
+    ): CommonResponseWithUpgradePriceTable
+
+    listDependentPriceTables(
+        filterByID: Long
+        filterByName: String
+        paginate: Paginate
+    ): CommonResponseWithDependentPriceTables
+
+    findDependentPriceTable(
+        id: Long!
+    ): CommonResponseWithDependentPriceTable
+}

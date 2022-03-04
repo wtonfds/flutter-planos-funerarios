@@ -1,0 +1,50 @@
+type CommonResponseWithGetNetToken {
+    commonResponse: CommonResponse!
+    getNetToken: String!
+}
+type CommonResponseWithPaymentSlipId {
+    commonResponse: CommonResponse!
+    paymentSlipId: String!
+}
+
+input cardInput {
+    numberToken: String
+    cardholderName: String
+    securityCode: String
+    expirationMonth: String
+    expirationYear: String
+}
+
+input paymentDiscountsInput {
+    month: Int!
+    discount: Float!
+}
+
+type PaymentSituationDTO {
+    status: String!
+    paymentType: String!
+    year: Int!
+    month: Int!
+    value: Float!
+    liquidationDate: DateTime
+}
+
+type DiscountDTO {
+    month: Int!
+    discount: Float!
+}
+
+type CommonResponseWithClientPaymentSituation {
+    commonResponse: CommonResponse!
+    paymentSituation: [PaymentSituationDTO]!
+}
+
+type CommonResponseWithPaymentDays {
+    commonResponse: CommonResponse!
+    paymentDays: [Int]!
+}
+
+type CommonResponseWithDiscountList {
+    commonResponse: CommonResponse!
+    discounts: [DiscountDTO]!
+}

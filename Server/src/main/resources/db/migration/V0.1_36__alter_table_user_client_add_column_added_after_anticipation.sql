@@ -1,0 +1,1 @@
+alter table frl_user_client add column added_after_anticipation boolean;

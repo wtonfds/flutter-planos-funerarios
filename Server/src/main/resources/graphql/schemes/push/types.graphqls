@@ -1,0 +1,4 @@
+type CommonResponseWithPushResult {
+    commonResponse: CommonResponse!
+    jsonResponse: String!
+}

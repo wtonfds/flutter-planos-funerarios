@@ -1,0 +1,26 @@
+input ProductInput {
+    accreditedId: Long!
+    name: String!
+    discount: String
+    dueDate: Date
+}
+
+type GenericProduct {
+    id: Long!
+    accreditedDTO: genericAccredited
+    farolUserBasicDTO: FarolUserBasicDTO
+    name: String!
+    discount: String
+    dueDate: Date
+}
+
+type CommonResponseForProduct {
+    commonResponse: CommonResponse!
+    productDTO: GenericProduct!
+}
+
+type CommonResponseForAccreditedList {
+    commonResponse: CommonResponse!
+    paginationInfo: PaginationInfo!
+    productList: [GenericProduct]!
+}

@@ -1,0 +1,11 @@
+extend type Query {
+    listCampaigns(
+        filterByID: Long
+        filterByName: String
+        paginate: Paginate
+    ): CommonResponseWithCampaigns
+
+    findCampaign(
+        id: Long!
+    ): CommonResponseWithCampaign
+}

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "629708046837",
+    "project_id": "vida-plano-app",
+    "storage_bucket": "vida-plano-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:629708046837:android:d742fcb010c357535f20bc",
+        "android_client_info": {
+          "package_name": "com.example.farol.vidaplano.vidaplanoapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "629708046837-1kvfthb11nloq33ai9jpje3ag8mgcptp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.farol.vidaplano.vidaplanoapp",
+            "certificate_hash": "0712e4e9581f9ba37c41a86909b31f5416f59ea2"
+          }
+        },
+        {
+          "client_id": "629708046837-s51prd5nc0j3hpp5q2s3jv8pkkpc0us0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAU4AZvgQCOXQ8dfYEDccG3IW6m1ah632w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "629708046837-s51prd5nc0j3hpp5q2s3jv8pkkpc0us0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

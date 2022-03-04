@@ -1,0 +1,43 @@
+input CompanyInfo {
+    city: String
+    complement: String
+    country: String
+    municipalRegistry: String
+    name: String
+    neighborhood: String
+    number: String
+    province: String
+    street: String
+    telephone: String
+    type: String
+    webSite: String
+    zipCode: String
+    nfDiscrimination: String
+    nfItemCode: String
+    nfMunicipalTaxCode: String
+}
+
+type CommonResponseWithCompanyInfo {
+    commonResponse: CommonResponse!
+    companyDTO: CompanyDTO!
+}
+
+type CompanyDTO {
+    city: String!
+    cnpj: String!
+    complement: String!
+    country: String!
+    municipalRegistry: String!
+    name: String!
+    neighborhood: String!
+    number: String!
+    province: String!
+    street: String!
+    telephone: String!
+    type: String!
+    webSite: String!
+    zipCode: String!
+    nfDiscrimination: String!
+    nfItemCode: String!
+    nfMunicipalTaxCode: String!
+}

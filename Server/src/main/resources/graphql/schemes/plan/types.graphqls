@@ -1,0 +1,113 @@
+input PlanInput {
+    name: String!
+    gracePeriod: Long!
+    gracePeriodExtraDependents: Long!
+    maxExtraDependentsAmount: Int!
+    active: Boolean!
+    adhesionContract: String!
+    planPriceTableId: Long!
+    upgradePriceTableId: Long!
+    dependentPriceTableId: Long!
+    contractUrl: String!
+}
+
+input PlanUpdateInput {
+    name: String
+    gracePeriod: Long
+    gracePeriodExtraDependents: Long
+    maxExtraDependentsAmount: Int
+    active: Boolean
+    adhesionContract: String
+    planPriceTableId: Long
+    upgradePriceTableId: Long
+    dependentPriceTableId: Long
+    contractUrl: String
+}
+
+type CommonResponseForPlan {
+    commonResponse: CommonResponse!
+    planDTO: PlanDTO!
+}
+
+type CommonResponseWithSubscriptionInformation {
+    commonResponse: CommonResponse!
+    subscriptionPlanDTO: PlanSubscriptionDTO!
+}
+
+type CommonResponseWithContractUrl {
+    commonResponse: CommonResponse!
+    url: String!
+}
+
+
+type CommonResponseWithDeletedDependents {
+    commonResponse: CommonResponse!
+    dependents: [ClientDTO]!
+}
+
+type CommonResponseWithPaymentSlipUrl {
+    commonResponse: CommonResponse!
+    url: String!
+}
+
+type PlanDTO {
+    id: Long!
+    name: String!
+    gracePeriod: Long!
+    gracePeriodExtraDependents: Long!
+    maxExtraDependentsAmount: Int!
+    active: Boolean!
+    adhesionContract: String!
+    upgradePriceTableDTO: UpgradePriceTableDTO!
+    planPriceTableDTO: PlanPriceTableDTO!
+    dependentPriceTableDTO: DependentPriceTableDTO!
+}
+
+type CommonResponseWithPlans {
+    commonResponse: CommonResponse!
+    paginationInfo: PaginationInfo!
+    plansList: [PlanDTO]!
+}
+
+type CommonResponseWithPaymentMonths {
+    commonResponse: CommonResponse!
+    paymentMonthList: [PaymentMonthDTO]
+}
+
+type PaymentMonthDTO {
+    month: Int!
+    year: Int!
+    paid: Boolean!
+    dueDate: Date
+    isOverdue: Boolean
+}
+
+
+type CommonResponseWithAvailableAnticipationMonths {
+    months: Int!
+    commonResponse: CommonResponse
+}
+
+type PlanSubscriptionDTO {
+    id: Long!
+    adhesionContract: String!
+    subscribedIn: DateTime!
+    value: Float!
+    addressDTO: AddressDTO!
+    clientNumber: Long!
+    clientDTO: ClientDTO!
+    planDTO: PlanDTO!
+    gracePeriod: Date!
+    active: Boolean!
+    luckNumber: Long!
+    totalValue: Float!
+    anticipationHaveDependent: Boolean
+    isDefault: Boolean!
+    cancelledIn: DateTime
+    paymentType: PaymentType
+}
+
+enum PaymentType {
+    PAYMENT_SLIP,
+    CREDIT_CARD
+}

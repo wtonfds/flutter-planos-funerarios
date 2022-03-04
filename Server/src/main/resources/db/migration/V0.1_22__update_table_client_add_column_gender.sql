@@ -1,0 +1,1 @@
+alter table frl_user_client add column gender varchar(15) not null;

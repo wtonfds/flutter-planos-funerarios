@@ -1,0 +1,10 @@
+extend type Mutation {
+    registerNewCampaign(
+        campaign: CampaignInput!
+    ): CommonResponseWithCampaign!
+
+    updateCampaign(
+        id: Long!
+        campaign: CampaignInput!
+    ): CommonResponseWithCampaign!
+}

@@ -1,0 +1,2 @@
+alter table frl_subscribed_plan add column anticipation_last_payment timestamp;
+alter table frl_subscribed_plan add column anticipation_have_dependent boolean;

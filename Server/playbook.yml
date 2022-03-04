@@ -1,0 +1,59 @@
+- hosts: Jenkins
+  connection: local
+  tasks:
+
+#Passos de build e upload no ECR 
+
+  - name: Git clone FarolBackend
+    git:
+      repo: git@git.monitoratec.com.br:farol/FarolBackend.git
+      dest: /home/ubuntu/farol/FarolBackend
+      update: yes
+      version: "{{ BRANCH }}"
+    become: yes
+    become_user: ubuntu
+
+  - name: Build projeto
+    shell: docker build -t farol-backend .
+    become: yes
+    args:
+      chdir: /home/ubuntu/farol/FarolBackend
+
+#Passos do  do ECR
+
+  - name: Etiqueta a imagem 
+    shell: docker tag farol-backend 273187861809.dkr.ecr.us-east-2.amazonaws.com/vidaplano:back-{{ BRANCH }}
+    become: yes
+
+  - name: Login ECR
+    shell: aws ecr get-login-password | docker login --username AWS --password-stdin 273187861809.dkr.ecr.us-east-2.amazonaws.com/vidaplano
+    become: yes  
+
+  - name: Envia imagem para ECR 
+    shell: docker push 273187861809.dkr.ecr.us-east-2.amazonaws.com/vidaplano:back-{{ BRANCH }}
+    become: yes
+
+#Passos maquina alvo 
+
+- hosts: "{{ ENV }}"
+  tasks:
+
+  - name: Login ECR
+    shell: aws ecr get-login-password | docker login --username AWS --password-stdin 273187861809.dkr.ecr.us-east-2.amazonaws.com/vidaplano
+    become: yes 
+  
+  #- name: Sobe banco e redis
+  #  shell: docker-compose up -d
+  #  args:
+  #    chdir: /home/ubuntu/PostgresRedis
+  #  become: yes
+  
+  - name: Deleta container atual
+    shell:  docker rm -f farol-backend
+    become: yes
+    ignore_errors: yes
+ 
+
+  - name: Sobe novo container
+    shell: docker run -d --network farolNetwork -p 8080:8080 --name farol-backend 273187861809.dkr.ecr.us-east-2.amazonaws.com/vidaplano:back-{{ BRANCH }}
+    become: yes

@@ -1,0 +1,72 @@
+type PlanPriceTableDTO {
+    id: Long!
+    name: String!
+    ageRanges: [PriceTableAgeRangeDTO]
+}
+type UpgradePriceTableDTO {
+    id: Long!
+    name: String!
+    ageRanges: [PriceTableAgeRangeDTO]
+}
+type DependentPriceTableDTO {
+    id: Long!
+    name: String!
+    ageRanges: [PriceTableAgeRangeDTO]
+}
+
+type PriceTableAgeRangeDTO {
+    id: Long!
+    startAge: Int!
+    endAge: Int!
+    value: Float!
+}
+
+type CommonResponseWithPlanPriceTable {
+    commonResponse: CommonResponse!
+    priceTable: PlanPriceTableDTO!
+}
+type CommonResponseWithPlanPriceTables {
+    commonResponse: CommonResponse!
+    paginationInfo: PaginationInfo!
+    priceTables: [PlanPriceTableDTO]!
+}
+
+type CommonResponseWithUpgradePriceTable {
+    commonResponse: CommonResponse!
+    priceTable: UpgradePriceTableDTO!
+}
+type CommonResponseWithUpgradePriceTables {
+    commonResponse: CommonResponse!
+    paginationInfo: PaginationInfo!
+    priceTables: [UpgradePriceTableDTO]!
+}
+
+type CommonResponseWithDependentPriceTable {
+    commonResponse: CommonResponse!
+    priceTable: DependentPriceTableDTO!
+}
+type CommonResponseWithDependentPriceTables {
+    commonResponse: CommonResponse!
+    paginationInfo: PaginationInfo!
+    priceTables: [DependentPriceTableDTO]!
+}
+
+input PlanPriceTableInput {
+    name: String!
+    ageRanges: [PriceTableAgeRangeInput]!
+}
+input UpgradePriceTableInput {
+    name: String!
+    ageRanges: [PriceTableAgeRangeInput]!
+}
+input DependentPriceTableInput {
+    name: String!
+    ageRanges: [PriceTableAgeRangeInput]!
+}
+
+# We can ignore the IDs and just update the existing ones, creating or removing some if needed
+input PriceTableAgeRangeInput {
+    startAge: Int!
+    endAge: Int!
+    value: Float!
+}

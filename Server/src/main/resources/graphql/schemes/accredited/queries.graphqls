@@ -1,0 +1,7 @@
+extend type Query {
+    listAccreditedUsers(
+        filterByID: Long
+        filterByName: String
+        paginate: Paginate
+    ): CommonResponseWithAccreditedUsers
+}

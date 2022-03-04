@@ -1,0 +1,4 @@
+extend type Query {
+    getGeneralParameterization: CommonResponseForGeneralParameterization!
+    getPlanBenefits: CommonResponseWithPlanBenefits!
+}

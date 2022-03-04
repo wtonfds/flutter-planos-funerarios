@@ -1,0 +1,14 @@
+[Jenkins]
+127.0.0.1 ansible_user=devopsmonitora
+
+[devops-test]
+3.81.173.65 ansible_user=ubuntu
+
+[Farol-dev]
+18.219.139.123 ansible_user=ubuntu
+
+[Farol-qa]
+3.21.21.14 ansible_user=ubuntu
+
+[Farol-homolog]
+13.59.175.29 ansible_user=ubuntu

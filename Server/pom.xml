@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.2.4.RELEASE</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>br.com.monitoratec</groupId>
+	<artifactId>farol</artifactId>
+	<version>1.1.4-1</version>
+	<name>farol</name>
+	<description>Farol backend</description>
+
+	<properties>
+		<aws-sdk.version>1.11.740</aws-sdk.version>
+		<firebase.version>6.8.1</firebase.version>
+		<flying-saucer.version>9.1.20</flying-saucer.version>
+		<graphql.version>5.10.0</graphql.version>
+		<jakarta-jws-api.version>1.1.1</jakarta-jws-api.version>
+		<java.version>11</java.version>
+		<jaxws-rt.version>2.3.2</jaxws-rt.version>
+		<maven-jaxws.version>2.6</maven-jaxws.version>
+		<maven.build.timestamp.format>yyyy-MM-dd HH:mm:ss</maven.build.timestamp.format>
+	</properties>
+
+	<dependencies>
+		<!-- Basic config to use Log4J2 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-logging</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-log4j2</artifactId>
+		</dependency>
+
+		<!-- Spring security for password hashing utils -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-core</artifactId>
+		</dependency>
+
+		<!-- E-mail -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
+		</dependency>
+
+		<!-- Database -->
+		<!--RedisDB-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-redis</artifactId>
+		</dependency>
+
+		<!--SQL-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-spatial</artifactId>
+		</dependency>
+
+		<!--SQL DB migration-->
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-core</artifactId>
+		</dependency>
+
+		<!-- GraphQL -->
+		<dependency>
+			<groupId>com.graphql-java-kickstart</groupId>
+			<artifactId>graphql-spring-boot-starter</artifactId>
+			<version>${graphql.version}</version>
+		</dependency>
+		<!-- Embed graphql playground -->
+		<dependency>
+			<groupId>com.graphql-java-kickstart</groupId>
+			<artifactId>playground-spring-boot-starter</artifactId>
+			<version>${graphql.version}</version>
+		</dependency>
+
+		<!-- Firebase -->
+		<dependency>
+			<groupId>com.google.firebase</groupId>
+			<artifactId>firebase-admin</artifactId>
+			<version>${firebase.version}</version>
+		</dependency>
+
+		<!-- Pdf generator -->
+		<dependency>
+			<groupId>org.xhtmlrenderer</groupId>
+			<artifactId>flying-saucer-pdf</artifactId>
+			<version>${flying-saucer.version}</version>
+		</dependency>
+
+		<!-- S3 aws -->
+		<dependency>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>aws-java-sdk-s3</artifactId>
+			<version>${aws-sdk.version}</version>
+		</dependency>
+
+		<!-- Actuator endpoints; can be used, for example, to check the health of the application. -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>io.micrometer</groupId>
+			<artifactId>micrometer-registry-prometheus</artifactId>
+		</dependency>
+
+		<!-- SOAP -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web-services</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.sun.xml.ws</groupId>
+			<artifactId>jaxws-ri</artifactId>
+			<version>${jaxws-rt.version}</version>
+			<type>pom</type>
+		</dependency>
+
+		<!-- Test dependencies -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.junit.vintage</groupId>
+					<artifactId>junit-vintage-engine</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+
+		<plugins>
+			<plugin>
+				<!-- Build an executable JAR -->
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>3.1.0</version>
+				<configuration>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+							<classpathPrefix>lib/</classpathPrefix>
+							<mainClass>br.com.monitoratec.farol.FarolApplication</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+
+			<!-- To generate the classes, use mvnw jaxws:wsimport (if it ignores the sources, delete the files in target/jaxws/stale) -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>jaxws-maven-plugin</artifactId>
+                <version>${maven-jaxws.version}</version>
+                <configuration>
+					<sourceDestDir>${project.basedir}/src/main/java</sourceDestDir>
+                    <packageName>br.com.monitoratec.farol.soap.ginfes</packageName>
+					<bindingFiles>
+						<file>${project.basedir}/soap/ginfes/cabecalho_v03.xsd</file>
+						<file>${project.basedir}/soap/ginfes/servico_cancelar_nfse_envio_v03.xsd</file>
+						<file>${project.basedir}/soap/ginfes/servico_cancelar_nfse_resposta_v03.xsd</file>
+						<file>${project.basedir}/soap/ginfes/servico_consultar_lote_rps_envio_v03.xsd</file>
+						<file>${project.basedir}/soap/ginfes/servico_consultar_lote_rps_resposta_v03.xsd</file>
+						<file>${project.basedir}/soap/ginfes/servico_consultar_nfse_envio_v03.xsd</file>
+						<file>${project.basedir}/soap/ginfes/servico_consultar_nfse_resposta_v03.xsd</file>
+						<file>${project.basedir}/soap/ginfes/servico_consultar_nfse_rps_envio_v03.xsd</file>
+						<file>${project.basedir}/soap/ginfes/servico_consultar_nfse_rps_resposta_v03.xsd</file>
+						<file>${project.basedir}/soap/ginfes/servico_consultar_situacao_lote_rps_envio_v03.xsd</file>
+						<file>${project.basedir}/soap/ginfes/servico_consultar_situacao_lote_rps_resposta_v03.xsd</file>
+						<file>${project.basedir}/soap/ginfes/servico_enviar_lote_rps_envio_v03.xsd</file>
+						<file>${project.basedir}/soap/ginfes/servico_enviar_lote_rps_resposta_v03.xsd</file>
+						<file>${project.basedir}/soap/ginfes/tipos_v03.xsd</file>
+						<file>${project.basedir}/soap/ginfes/xmldsig-core-schema20020212_v03.xsd</file>
+					</bindingFiles>
+                    <wsdlFiles>
+                        <file>${project.basedir}/src/main/resources/wsdl/ginfes-homolog.wsdl</file>
+                    </wsdlFiles>
+                </configuration>
+            </plugin>
+		</plugins>
+	</build>
+</project>

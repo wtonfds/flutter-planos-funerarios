@@ -1,0 +1,1 @@
+-- This file is empty because h2 dont have support to materialized views

@@ -1,0 +1,51 @@
+version: '3'
+services:
+#GenerateBackendBuild
+# FarolBackend:
+#   build: 
+#     context: .
+#     dockerfile: Dockerfile
+#   image: "farol-backend"
+#    container_name: dockerComposeFarolBackend
+#   networks:
+#     - farolNetwork
+#   ports:
+#     - '8080:8080'
+
+#postgreDB 
+
+  postgresDb:
+    image: "postgres" # use latest official postgres version
+    container_name: farol-postgres
+    environment:
+      - POSTGRES_PASSWORD=farol
+      - POSTGRES_USER=farol
+    volumes:
+      - /home/ubuntu/farolDB:/var/lib/postgresql/data/ # <- teste local
+    ports:
+     - '5432:5432'
+    networks:
+     - farolNetwork
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "teste@monitora.com.br"
+      PGADMIN_DEFAULT_PASSWORD: "pgadmin"
+    ports:
+      - "16543:80"
+    depends_on:
+      - postgresDb
+    networks:
+      - farolNetwork
+
+#Redis service 
+  redis:
+    image: redis
+    ports:
+     - '6379:6379'
+    networks:
+     - farolNetwork
+
+networks:
+  farolNetwork:

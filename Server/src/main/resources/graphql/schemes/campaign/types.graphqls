@@ -1,0 +1,55 @@
+type CampaignDTO {
+    id: Long!
+    name: String!
+    startDate: Date!
+    endDate: Date!
+    recurrenceType: RecurrenceTypeDTO!
+    recurrence: Int!
+    timeToSend: Time!
+    message: String!
+    deliveryMode: DeliveryModeDTO!
+    inactiveClients: Boolean!
+    birthdayClients: Boolean!
+    childrenWithAge: Boolean!
+    expiringContracts: Boolean!
+    withoutCoupons: Boolean!
+    withoutTem: Boolean!
+    withoutFuneralAssistance: Boolean!
+}
+
+enum RecurrenceTypeDTO {
+    DAILY, WEEKLY, MONTHLY
+}
+
+enum DeliveryModeDTO {
+    EMAIL, SMS, NOTIFICATION
+}
+
+type CommonResponseWithCampaign {
+    commonResponse: CommonResponse!
+    campaign: CampaignDTO!
+}
+
+type CommonResponseWithCampaigns {
+    commonResponse: CommonResponse!
+    paginationInfo: PaginationInfo!
+    campaigns: [CampaignDTO]!
+}
+
+input CampaignInput {
+    name: String!
+    startDate: Date!
+    endDate: Date!
+    recurrenceType: RecurrenceTypeDTO!
+    recurrence: Int!
+    timeToSend: Time!
+    message: String!
+    deliveryMode: DeliveryModeDTO!
+    inactiveClients: Boolean
+    birthdayClients: Boolean
+    childrenWithAge: Boolean
+    expiringContracts: Boolean
+    withoutCoupons: Boolean
+    withoutTem: Boolean
+    withoutFuneralAssistance: Boolean
+}

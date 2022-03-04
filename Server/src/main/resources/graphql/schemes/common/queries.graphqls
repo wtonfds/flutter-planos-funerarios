@@ -1,0 +1,7 @@
+type Query {
+    # Autocomplete an Address from a cep
+    autoCompleteCep(
+        # CEP to try to look the address
+        cep: String!
+    ): AddressDTO
+}

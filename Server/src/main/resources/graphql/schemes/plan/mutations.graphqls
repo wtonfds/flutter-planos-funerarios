@@ -1,0 +1,49 @@
+extend type Mutation {
+    registerNewPlan(
+        planInput: PlanInput!
+    ): CommonResponseForPlan!
+
+    updatePlan(
+        id: Long!
+        planInput: PlanUpdateInput!
+    ): CommonResponseForPlan!
+
+    registerNewPlanSubscription(
+        planId: Long!
+        paymentType: PaymentType!
+        rg: String
+        # documents: [DocumentsInput]
+        dependents: [DependentInput]
+        address: AddressInput!
+        cardInput: cardInput
+        paymentDay: Int
+    ): CommonResponseWithSubscriptionInformation!
+
+    reactivateContract(
+        subscribedPlanId: Long!
+        commentary: String!
+    ): CommonResponseWithSubscriptionInformation!
+
+    updatePlanSubscriptionAddress(
+        address: AddressInput!
+    ): CommonResponseWithSubscriptionInformation!
+
+    removeDependents(
+        dependents: [Long]!
+    ): CommonResponseWithDeletedDependents
+
+    upgradeToNewPlan(
+        planId: Long!
+        dependents: [DependentInput]
+        addressInput: AddressInput!
+        cardInput: cardInput
+        paymentType: PaymentType!
+        paymentSlipDate: Int
+    ): CommonResponseWithSubscriptionInformation!
+
+    unsubscribeFromContract:CommonResponseWithSubscriptionInformation!
+
+    chargeClient(
+        clientId: Long!
+    ): JustCommonResponse!
+}

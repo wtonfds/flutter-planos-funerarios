@@ -1,0 +1,58 @@
+input generalParameterizationInput {
+    loyaltyCard: Boolean
+    loyaltyCardNumberRule: String
+    tem: Boolean
+    accreditedLoginWithCNPJ: Boolean
+    accreditedCouponDueDate: Date
+    lotteryAutoDisclosure: Boolean
+    lotteryURL: String
+    SLA: String
+    nfIss: String
+    nfGissURL: String
+    nfGissUser: String
+    nfGissPassword: String
+    nfGissDueDate: String
+    farolTelephone: String
+    timeToBlockAccount: Int
+    timeToUpdateFinancialData: Int
+    farolEmail: String
+    funeralAssistancePhone: String
+    aliquot: String
+    planBenefits: String
+    planBenefitsDetails: String
+}
+
+type CommonResponseForGeneralParameterization {
+    commonResponse: CommonResponse!
+    generalParameterizationDTO: generalParameterizationDTO!
+}
+
+type CommonResponseWithPlanBenefits {
+    commonResponse: CommonResponse!
+    planBenefits: String!
+}
+
+type generalParameterizationDTO {
+    id: Long!
+    loyaltyCard: Boolean!
+    loyaltyCardNumberRule: String!
+    tem: Boolean
+    accreditedLoginWithCNPJ: Boolean!
+    accreditedCouponDueDate: Date!
+    lotteryAutoDisclosure: Boolean!
+    lotteryURL: String!
+    SLA: String!
+    nfIss: String!
+    nfGissURL: String!
+    nfGissUser: String!
+    nfGissPassword: String!
+    nfGissDueDate: String!
+    farolTelephone: String!
+    timeToBlockAccount: Int!
+    timeToUpdateFinancialData: Int!
+    farolEmail: String!
+    funeralAssistancePhone: String!
+    aliquot: String!
+    planBenefits: String
+    planBenefitsDetails: String
+}

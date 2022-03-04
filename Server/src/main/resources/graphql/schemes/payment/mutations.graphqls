@@ -1,0 +1,26 @@
+extend type Mutation {
+    registerNewPaymentSlip(
+        month: Int!
+        year: Int!
+    ): CommonResponse!
+
+    updateCreditCard(
+        card: cardInput!
+    ): CommonResponse
+
+    changePaymentSlipToCreditCard(
+        card: cardInput!
+    ): CommonResponse
+
+    changeCreditCardToPaymentSlip(
+        paymentDay: Int!
+    ): CommonResponse
+
+    registerPaymentDiscounts(
+        discounts: [paymentDiscountsInput]!
+    ): CommonResponse
+
+    anticipateParcel(parcelQuantity: Int!): CommonResponse
+
+    createPaymentMonth:CommonResponse
+}

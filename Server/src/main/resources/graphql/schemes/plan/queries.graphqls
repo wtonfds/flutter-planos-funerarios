@@ -1,0 +1,24 @@
+extend type Query {
+    listPlans(
+        filterByID: Long
+        filterByName: String
+        paginate: Paginate
+    ): CommonResponseWithPlans
+
+    listCurrentSubscribedPlan: CommonResponseWithSubscriptionInformation
+
+    getContractUrl(
+        subscriptionPlanId: Long!
+    ): CommonResponseWithContractUrl
+
+    getPaymentSlipUrl(
+        month: Int!
+        year: Int!
+    ): CommonResponseWithPaymentSlipUrl!
+
+    listPlanDependents: CommonResponseWithClientDependentsInformation
+
+    getAvailableAnticipationParcels: CommonResponseWithAvailableAnticipationMonths
+
+    listPaymentMonths: CommonResponseWithPaymentMonths
+}

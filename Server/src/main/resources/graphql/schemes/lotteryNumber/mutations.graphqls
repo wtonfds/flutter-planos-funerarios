@@ -1,0 +1,5 @@
+extend type Mutation {
+    fetchLotteryNumbers: CommonResponse!
+
+    approveLotteryNumbers(id: Long!): CommonResponse!
+}

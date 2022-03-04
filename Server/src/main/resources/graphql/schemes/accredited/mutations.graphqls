@@ -1,0 +1,12 @@
+extend type Mutation {
+    registerNewAccredited(
+        accreditedInfo: AccreditedInfo!
+        addressInput: AddressInput!
+    ): CommonResponseForAccredited!
+
+    updateAccreditedInfo(
+        id: Long!
+        accreditedInfo: AccreditedInfoOptional
+        addressInput: AddressInput
+    ):CommonResponseForAccredited!
+}

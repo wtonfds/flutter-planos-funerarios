@@ -1,0 +1,26 @@
+extend type Query {
+    getCurrentLoggedClient: CommonResponseForClient
+
+    getCurrentLoggedFarolUser: CommonResponseForFarolUser
+
+    listFarolUsers(
+        filterByID: Long
+        filterByName: String
+        paginate: Paginate
+    ): CommonResponseWithFarolUsers
+
+    listHolders(
+        id: Long
+    ): CommonResponseWithListClients
+
+    getClientByCPF(
+        cpf: String!
+    ): CommonResponseForClient
+
+    # returns true if user is on grace days, false otherwise
+    getClientIsOnGracePeriod: CommonResponseWithClientGracePeriod!
+
+    getUserTemCard: CommonResponseWithTemCard!
+
+    getClientOneSignalPreferences: CommonResponseWithOneSignalPreferences!
+}

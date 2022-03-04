@@ -1,0 +1,9 @@
+type CategoryDTO {
+    id: Long!
+    name: String!
+}
+
+type CommonResponseWithCategories {
+    commonResponse: CommonResponse!
+    categories: [CategoryDTO]!
+}

@@ -1,0 +1,1 @@
+alter table frl_user_client add column sms_code varchar(8);

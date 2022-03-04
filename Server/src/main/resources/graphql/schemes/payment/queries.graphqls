@@ -1,0 +1,16 @@
+extend type Query {
+    getGetNetToken:CommonResponseWithGetNetToken!
+
+    getClientPaymentSituation(
+        clientId: Long!
+    ): CommonResponseWithClientPaymentSituation!
+
+    getPaymentSlip(
+        month: Int!
+        year: Int!
+    ):CommonResponseWithPaymentSlipId!
+
+    getPaymentDays: CommonResponseWithPaymentDays!
+
+    listPaymentDiscounts: CommonResponseWithDiscountList!
+}

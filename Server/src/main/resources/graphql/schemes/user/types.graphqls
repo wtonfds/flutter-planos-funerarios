@@ -1,0 +1,238 @@
+# A composition of all concrete users returning the proper user when applicable
+type GenericUserDTO {
+    # returns a object if the user is a customer
+    client: ClientDTO
+    farolUser: FarolUserDTO
+}
+
+enum ClientTypeDTO {
+    GUEST, HOLDER, SPOUSE, CHILD, EXTRA_DEPENDENT
+}
+
+enum farolUserPermission {
+    ACCREDITED, GENERAL_PARAMETERIZATION, PRICE_TABLE, LIST_CLIENTS
+}
+
+enum DocumentClientTypeDTO {
+    CPF, RG, CNH, CHECKING_ADDRESS
+}
+
+enum GenderDTO {
+    MALE,
+    FEMALE
+}
+
+enum OneSignalPreferencesDTO {
+    INSURANCE,
+    LOTTERY_DRAW,
+    ACCREDITED,
+    UPDATES,
+    DEPENDENT_ACTIVITY
+}
+
+type DependentDTO {
+    # returns a object if the user is a customer
+    id: Long!
+    email: Email
+    name: String!
+    cpf: String
+    rg: String
+    birthday: Date
+    telephone: String
+    alive: Boolean
+    clientType: ClientTypeDTO!
+    createdAt: DateTime!
+    temporaryPassword: Boolean!
+    active: Boolean!
+    deleted: Boolean!
+    oneSignalPlayerId: String
+    documents: [DocumentDTO]
+    gender: GenderDTO
+}
+
+type DocumentDTO {
+    id: Long!
+    urlDocument: String!
+    documentClientType: DocumentClientTypeDTO!
+    active: Boolean!
+}
+
+type ClientDTO {
+    # returns a object if the user is a customer
+    id: Long!
+    email: Email
+    name: String!
+    cpf: String
+    rg: String
+    birthday: Date
+    holder: ClientDTO
+    telephone: String
+    alive: Boolean
+    clientType: ClientTypeDTO!
+    createdAt: DateTime!
+    temporaryPassword: Boolean!
+    active: Boolean!
+    authorized: Boolean
+    deleted: Boolean!
+    oneSignalPlayerId: String
+    gracePeriod: Date
+    documents: [DocumentDTO]
+    dependents: [DependentDTO]
+    gender: GenderDTO
+    luckNumber: String
+}
+
+type TrialUserDTO {
+    name: String!
+    email: Email!
+}
+
+type CommonResponseWithTrialUserInformation {
+    commonResponse: CommonResponse!
+    trialUser: TrialUserDTO!
+}
+
+type CommonResponseForClient {
+    # Common response containing the details
+    commonResponse: CommonResponse!
+    # User information in case the login succeeds
+    genericClient: ClientDTO!
+}
+
+type CommonResponseForFarolUser {
+    # Common response containing the details
+    commonResponse: CommonResponse!
+    # User information in case the login succeeds
+    genericFarolUser: FarolUserDTO!
+}
+
+type FarolUserDTO {
+    # returns a object if the user is a customer
+    id: Long!
+    email: Email!
+    name: String!
+    cpf: String!
+    telephone: String!
+    agentNumber: Long!
+    active: Boolean!
+    isTemporaryPassword: Boolean!
+    permissionTypeDTOList: [farolUserPermission]
+}
+
+type TemCardDTO {
+    dataUltStatus: String
+    codigoD: String
+    descricaoD: String
+    dataAquisicao: String
+    sexo: String
+    cnpjCpf: String
+    numeroCartao: String
+    status: String
+}
+
+input DocumentsInput {
+    image: String!
+    documentClientTypeDTO: DocumentClientTypeDTO!
+}
+
+type FarolUserBasicDTO {
+    id: Long!
+    email: Email!
+    name: String!
+    cpf: String!
+    telephone: String!
+    agentNumber: Long!
+    active: Boolean!
+    isTemporaryPassword: Boolean!
+}
+
+input DependentInput {
+    name: String!
+    birthday: Date!
+    clientType: ClientTypeDTO!
+    cpf: String
+    rg: String
+    telephone: String
+    documentsInput: [DocumentsInput]
+    gender: GenderDTO
+}
+
+input ExtraDependentInput {
+    id: Long!
+    cpf: String!
+    rg: String!
+    telephone: String
+    gender: GenderDTO
+    documents: [DocumentsInput]!
+}
+
+input ClientDependentUpdateInput {
+    name: String!
+    email: String!
+    telephone: String!
+    passwordHash: String!
+    rg: String!
+    gender: GenderDTO
+}
+
+input PasswordUpdateInput {
+    password: String!
+    oldPassword: String!
+}
+
+type CommonResponseWithFarolUsers {
+    commonResponse: CommonResponse!
+    paginationInfo: PaginationInfo!
+    farolUsers: [FarolUserDTO]!
+}
+
+type CommonResponseWithClientDependentsInformation {
+    commonResponse: CommonResponse!
+    dependents: [ClientDTO]!
+}
+
+input ResetFarolUserPasswordInput {
+    cpf: String!
+    email: String!
+}
+
+type JustCommonResponse {
+    commonResponse: CommonResponse!
+}
+
+type CommonResponseWithResetFarolUserPassword {
+    commonResponse: CommonResponse!
+}
+
+enum ClientRecoveryPasswordType {
+    EMAIL, SMS
+}
+
+type CommonResponseWithClientGracePeriod {
+    commonResponse: CommonResponse!
+    status: Boolean!
+}
+
+type CommonResponseWithListClients {
+    commonResponse: CommonResponse!
+    clients: [ClientDTO]!
+}
+
+type CommonResponseWithDischargeStatementURL {
+    commonResponse: CommonResponse!
+    dischargeStatementURL: String!
+}
+
+type CommonResponseWithTemCard {
+    commonResponse: CommonResponse!
+    cardDataDTO: TemCardDTO!
+}
+
+type CommonResponseWithOneSignalPreferences {
+    commonResponse: CommonResponse!
+    preferences: [OneSignalPreferencesDTO]!
+}
+
+type CommonResponseWithSuccessUpdateDocuments {
+    commonResponse: CommonResponse!
+}

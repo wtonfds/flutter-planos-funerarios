@@ -1,0 +1,5 @@
+type Mutation {
+    tryHash(
+        string: String!
+    ): String!
+}

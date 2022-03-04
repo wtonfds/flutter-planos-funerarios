@@ -1,0 +1,122 @@
+extend type Mutation {
+    registerNewClient(
+        loginViaEmailData: LoginViaEmailInput,
+        cpf: String!
+        name: String!
+        telephone: String!
+        birthDay: Date!
+        rg: String
+        gender: GenderDTO!
+    ): CommonResponseForClient!
+
+    registerClientDependents(
+        dependents: [DependentInput]!
+    ): CommonResponseWithClientDependentsInformation!
+
+    updateDependentInformation(
+        cpf: String!
+        clientDependentUpdateInput: ClientDependentUpdateInput!
+    ): CommonResponseForClient
+
+    updateClientInfo(
+        email: Email
+        name: String
+        telephone: String
+        birthDay: Date
+        rg: String
+        oneSignalPlayerId: String
+        gender: GenderDTO
+    ): CommonResponseForClient
+
+    updateClientLuckNumber(
+        id: Long!
+        luckNumber: String
+    ):CommonResponseForClient
+
+    updateClientPassword(
+        passwords: PasswordUpdateInput
+    ): CommonResponseForClient
+
+    updateClientIsAlive(
+        id: Long!
+    ): CommonResponseForClient
+
+    registerNewFarolUser(
+        loginViaEmailData: LoginViaEmailInput
+        cpf: String!
+        name: String!
+        telephone: String!
+        permissions: [farolUserPermission]!
+    ): CommonResponseForFarolUser!
+
+    updateFarolUserInfo(
+        email: Email
+        passwords: PasswordUpdateInput
+        name: String
+        telephone: String
+        cpf: String
+        permissions: [farolUserPermission]!
+    ): CommonResponseForFarolUser!
+
+    disableFarolUser(
+        id: Long!
+    ): CommonResponseForFarolUser!
+
+    resetFarolUserPassword(
+        input: ResetFarolUserPasswordInput!
+    ): JustCommonResponse!
+
+    updateFarolUserPassword(
+        id: Long!
+        password: String!
+    ): JustCommonResponse!
+
+    resetClientPassword(
+        clientCpf: String!
+        email: String!
+        birthday: Date!
+        recoveryPasswordType: ClientRecoveryPasswordType!
+    ): JustCommonResponse
+
+    generateDischargeStatementForClient(
+        clientId: Long!
+        dischargeStatement: String!
+        dateFrom: Date
+        dateTo: Date
+    ): CommonResponseWithDischargeStatementURL
+
+    sendSmsToConfirmLogin(
+        cpf: String!
+    ): JustCommonResponse
+
+    checkCodeToConfirmLogin(
+        cpf: String!,
+        code: String!
+    ): JustCommonResponse
+
+    registerNewTrialUser(
+        name: String!
+        email: Email!
+    ): CommonResponseWithTrialUserInformation
+    removeGraceDays(
+        cpf: String!
+    ): CommonResponseForClient!
+
+    sendAuthToken(
+        authToken: String!
+    ): CommonResponseForClient
+
+    requestNewAuthToken: CommonResponse
+
+    # client id as parameter, logged in as farol user
+    cancelClientOnTem(id: Long!): JustCommonResponse
+
+    updateOneSignalPreferences(
+        oneSignalPreferences: [OneSignalPreferencesDTO]!
+    ): CommonResponseWithOneSignalPreferences!
+
+    updateHolderAndExtraDependentsInformation(
+        holderDocuments: [DocumentsInput]!
+        extraDependentsInformation: [ExtraDependentInput]!
+    ): CommonResponseWithSuccessUpdateDocuments!
+}

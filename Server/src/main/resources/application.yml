@@ -1,0 +1,202 @@
+environment: ${ENVIRONMENT:dev}
+cep-autocomplete-url: https://viacep.com.br/ws/{cep}/json/
+payment-days: 5, 10, 15, 25
+
+aws:
+  s3-access-key: ${S3_ACCESS_KEY:AKIA4LCFXYJXFRZE6NEL}
+  s3-secret-key: ${S3_SECRET_KEY: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}
+  s3-bucket: ${S3_BUCKET:projeto-farol-dev}
+
+push:
+  onesignal-url: ${ONESIGNAL_URL:https://onesignal.com/api/v1/notifications}
+  onesignal-app-id: ${ONESIGNAL_APP_ID:5ff8223f-8c5b-4d39-a433-b5eb4fd60a5c}
+  onesignal-api-key: ${ONESIGNAL_API_KEY:YTUxZDYwNDYtMGQ3Zi00YTk1LTlkZTktOTJiYTA1NzFlYTM0}
+
+mail:
+  reset-password-from: ${MAIL_RESET_PASSWORD_FROM:no-reply@vidaplano.com.br}
+  reset-password-subject: ${MAIL_RESET_PASSWORD_SUBJECT:Vida Plano - Senha temporária}
+  reset-password-body: "${MAIL_RESET_PASSWORD_BODY:Recentemente, você pediu para redefinir sua senha. Por favor, utilize a senha temporária para logar e alterar a senha temporária para uma senha pessoal.\nSenha temporária: <new_password>\nAtenciosamente,\nVidaPlano.com.br}"
+  removed-from-plan-subject: Vida Plano - Atualização do plano
+  removed-from-plan-body: Voce foi removido do plano de <holder_name>
+  charge-client-from: ${MAIL_CHARGE_CLIENT_FROM:no-reply@vidaplano.com.br}
+  charge-client-subject: ${MAIL_CHARGE_CLIENT_SUBJECT:Vida Plano - Pagamento}
+  charge-client-body: "${MAIL_CHARGE_CLIENT_BODY:<clientName>, não detectamos o seu pagamento, favor entrar em contato com a farol.\nCaso tenha sido pago, por favor desconsiderar a mensagem.\nAtenciosamente,\nVidaPlano.com.br }"
+  payment-slip-body: "${MAIL_PAYMENT_SLIP_BODY:Favor pagar o boleto para usufruir dos serviços da Vida plano \n<getNetUrl>/v1/payments/boleto/<paymentSlipId>/pdf}"
+  removed-child-subject: Filho removido do plano
+  removed_child-body: O seu dependente direto <child_name> foi removido do plano pois completou 24 anos.
+  discharge-statement-client-from: ${MAIL_DISCHARGE_STATEMENT_CLIENT_FROM:no-reply@vidaplano.com.br}
+  discharge-statement-subject: ${MAIL_DISCHARGE_STATEMENT_CLIENT_SUBJECT:Vida Plano - Declaração de Quitação}
+  discharge-statement-client-body: "${MAIL_DISCHARGE_STATEMENT_CLIENT_BODY:O PDF da Declaração de Quitação está disponível no link abaixo:\n\n<dischargeStatementURL>}"
+  nfse-subject: Vida Plano - Nota fiscal
+  nfse-from: no-reply@vidaplano.com.br
+  nfse-body: A nota fiscal do seu plano encontra-se em anexo abaixo
+server:
+  port: ${SERVER_PORT:7070}
+  # ssl:
+  #   key-store: ${CLASSPATH}
+  #   key-store-password: ${KEY_STORE_PASSWORD}
+  #   key-store-type: ${KEY_STORE_TYPE}
+  #   key-alias: ${KEY_ALIAS}
+  #   key-password: ${KEY_PASSWORD}
+
+logging:
+  level:
+    root: ${LOGGING_LEVEL:info}
+
+getnet:
+  client_id: ${GETNET_CLIENT_ID:ca58a445-9739-4a48-9bb4-772f599801d8}
+  client_secret: ${GETNET_CLIENT_SECRET:bcb18f8a-ae95-4b5a-bcc4-1390349980f8}
+  url:  ${GETNET_URL:https://api-homologacao.getnet.com.br/}
+  seller_id: ${GETNET_SELLER_ID:f5576eb1-d665-4a00-b8fb-68d4bcd7cc50}
+
+sms:
+  url: http://sms.mkmservice.com/api
+  user: farol
+  password: mkm@@2020
+  company: farol
+  cost_center: Nome_centro_de_custo
+  auth_token_sms_body: "${SMS_AUTH_TOKEN_BODY: Para ativar seu plano favor digitar a sequencia <authToken> no seu celular}"
+
+#tem:
+#  url: ${TEM_URL:https://qa.api.tempravoce.com/}
+#  url_get_all_cards: ${TEM_URL_GET_ALL_CARDS:https://test.godigibee.io/pipeline/meutem/v1/}
+#  token_url: ${TEM_TOKEN_URL:https://develop.dd.meutem.com.br/v1/api-auth/login}
+#  company_id: ${TEM_COMPANY_ID:372276}
+#  api_key: ${TEM_API_KEY:F@r0l1nVI7@}
+#  onyx_code: ${TEM_ONYX_CODE:6051}
+#  cnpj: ${TEM_CNPJ:19957202000154}
+
+ginfes:
+  #Default to the homologation URL for DEV and QA tests
+  url: ${GINFES_URL:http://homologacao.ginfes.com.br}
+  wsdl-location: ${GINFES_WSDL_LOCATION:classpath:/wsdl/ginfes-homolog.wsdl}
+  certificate-file: ${GINFES_CERTIFICATE_FILE:classpath:/certificates/farol.pfx}
+  certificate-password: ${GINFES_CERTIFICATE_PASSWORD:1234}
+
+cron:
+  cron-every-midnight: ${CRON_EVERY_MIDNIGHT:0 0 0 * * ?}
+  cron-every-month: ${CRON_EVERY_MONTH:0 0 1 * * ?}
+  cron-delay-minutes: ${CRON_DELAY_MINUTES:900000}
+
+spring:
+  datasource:
+    #Default settings for a local environment; they should not match real, production settings
+    url: jdbc:postgresql://${SQL_DATABASE_SERVER_HOST:localhost}:${SQL_DATABASE_SERVER_PORT:5432}/${SQL_DATABASE_NAME:farol}
+    username: ${SQL_DATABASE_USERNAME:farol}
+    password: ${SQL_DATABASE_PASSWORD:farol}
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.spatial.dialect.postgis.PostgisPG9Dialect
+        jdbc:
+          lob:
+            non_contextual_creation: true
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+  redis:
+    host: ${REDIS_DATABASE_SERVER_HOST:localhost}
+    port: ${REDIS_DATABASE_SERVER_PORT:6379}
+    database: ${REDIS_DATABASE_INDEX:3}
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    baseline-version: 1
+    ignore-future-migrations: false
+  jackson:
+    visibility:
+      FIELD: any
+  mail:
+    host: ${SMTP_HOST:node.cluster07server.com}
+    port: ${SMTP_PORT:465}
+    username: ${SMTP_USERNAME:contato@vidaplano.com.br}
+    password: ${SMTP_PASSWORD:2iTIKeVjUc~&}
+    properties:
+      mail.smtp.auth: ${SMTP_USE_AUTH:true}
+      mail.smtp.starttls.enable: ${SMTP_USE_TLS:true}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, flyway, prometheus, env, metrics
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+  endpoint:
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
+    health:
+      show-details: always
+    info:
+      enabled: true
+    env:
+      enabled: true
+  health:
+    db:
+      enabled: true
+    redis:
+      enabled: true
+    diskspace:
+      enabled: true
+
+info:
+  app:
+    name: @name@
+    description: @description@
+    version: @version@
+    encoding: @project.build.sourceEncoding@
+    java:
+      source: @java.version@
+  project:
+    version: @project.version@
+    artifactId: @project.artifactId@
+  maven:
+    build:
+      timestamp: @maven.build.timestamp@
+
+graphql:
+  servlet:
+    mapping: /graphql
+    enabled: true
+    corsEnabled: true
+    subscriptions:
+      websocket:
+        path: /ssuubbssccrriippttiioonnss
+  playground:
+    mapping: /playground
+    endpoint: /graphql
+    subscriptionsEndpoint: /subscriptions
+    staticFolder.basePath: my-playground-resources-folder
+    enabled: true
+    pageTitle: Playground - Farol [${environment}]
+    cdn:
+      enabled: false
+      version: latest
+    settings:
+      editor.cursorShape: line
+      editor.fontFamily: "'Source Code Pro', 'Consolas', 'Inconsolata', 'Droid Sans Mono', 'Monaco', monospace"
+      editor.fontSize: 14
+      editor.reuseHeaders: true
+      editor.theme: dark
+      general.betaUpdates: false
+      prettier.printWidth: 80
+      prettier.tabWidth: 2
+      prettier.useTabs: false
+      request.credentials: omit
+      schema.polling.enable: true
+      schema.polling.endpointFilter: "*localhost*"
+      schema.polling.interval: 2000
+      schema.disableComments: true
+      tracing.hideTracingResponse: true
+    headers:
+      Authorization: PasteYourTokenHere
+    tabs:
+      - name: Examples Prefiled Tab
+        query: classpath:graphql/examples/exampleQueryFilled.graphql
+        variables: classpath:graphql/examples/variables.json
+        responses:
+          - classpath:graphql/examples/exampleResponse1.json

@@ -1,0 +1,28 @@
+extend type Mutation {
+    registerNewPlanPriceTable(
+        planPriceTable: PlanPriceTableInput!
+    ): CommonResponseWithPlanPriceTable!
+
+    updatePlanPriceTable(
+        id: Long!
+        planPriceTable: PlanPriceTableInput!
+    ): CommonResponseWithPlanPriceTable!
+
+    registerNewUpgradePriceTable(
+        upgradePriceTable: UpgradePriceTableInput!
+    ): CommonResponseWithUpgradePriceTable!
+
+    updateUpgradePriceTable(
+        id: Long!
+        upgradePriceTable: UpgradePriceTableInput!
+    ): CommonResponseWithUpgradePriceTable!
+
+    registerNewDependentPriceTable(
+        dependentPriceTable: DependentPriceTableInput!
+    ): CommonResponseWithDependentPriceTable!
+
+    updateDependentPriceTable(
+        id: Long!
+        dependentPriceTable: DependentPriceTableInput!
+    ): CommonResponseWithDependentPriceTable!
+}

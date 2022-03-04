@@ -1,0 +1,43 @@
+extend type Mutation {
+    # Mutation to login in the backend using e-mail
+    login(
+#        # Login using e-mail
+#        loginViaEmailInfo: LoginViaEmailInput
+
+        # Login using CPF
+        loginViaCPFInfo: LoginViaCPFInput
+
+        # The type of user the login is for
+        loggingInAs: AccessingEntity!
+
+    ): CommonResponseForLogin!
+
+    logout: CommonResponse!
+
+
+    # Start the password recovery of the account
+#    startPasswordRecovery(
+#        # Data identification of the user
+#        identification: UserIdentification!
+#        # Way to receive the code to recover the password
+#        throughtOption: RecoveryPasswordType!
+#    ): CommonResponse!
+#
+#    # Finish the password recovery of the account
+#    finishPasswordRecovery(
+#        # Data identification of the user
+#        identification: UserIdentification!
+#        # Password recovery code
+#        code: String!
+#        # New password for the account
+#        newPassword: String!
+#    ): CommonResponse!
+#
+#    # Finish the password recovery of the account
+#    updatePassword(
+#        # Current password of the account
+#        currentPassword: String!
+#        # new password to set on the account
+#        newPassword: String!
+#    ): CommonResponse!
+}

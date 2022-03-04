@@ -1,0 +1,64 @@
+package br.com.monitoratec.farol.graphql.resolvers.mutation.user;
+
+import br.com.monitoratec.farol.auth.model.AccessingEntity;
+import br.com.monitoratec.farol.graphql.exceptions.ErrorOnProcessingRequestException;
+import br.com.monitoratec.farol.graphql.model.input.document.DocumentsInput;
+import br.com.monitoratec.farol.graphql.model.input.user.ExtraDependentInput;
+import br.com.monitoratec.farol.graphql.model.responses.user.CommonResponseWithSuccessUpdateDocuments;
+import br.com.monitoratec.farol.graphql.resolvers.base.BaseResolver;
+import br.com.monitoratec.farol.graphql.utils.TimedOutHandledPromiser;
+import br.com.monitoratec.farol.service.plan.PlanSubscriptionService;
+import br.com.monitoratec.farol.sql.model.user.Client;
+import br.com.monitoratec.farol.sql.repository.user.ClientRepository;
+import br.com.monitoratec.farol.utils.responses.StatusCodes;
+import com.coxautodev.graphql.tools.GraphQLMutationResolver;
+import graphql.schema.DataFetchingEnvironment;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
+
+@Component
+public class UpdateHolderAndExtraDependentInformationImpl extends BaseResolver implements GraphQLMutationResolver {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(UpdateHolderAndExtraDependentInformationImpl.class);
+
+    private final ClientRepository clientRepository;
+    private final PlanSubscriptionService planSubscriptionService;
+
+    public UpdateHolderAndExtraDependentInformationImpl(ClientRepository clientRepository, PlanSubscriptionService planSubscriptionService) {
+        this.clientRepository = clientRepository;
+        this.planSubscriptionService = planSubscriptionService;
+    }
+
+    public CompletableFuture<CommonResponseWithSuccessUpdateDocuments> updateHolderAndExtraDependentsInformation(
+            List<DocumentsInput> holderDocuments,
+            List<ExtraDependentInput> extraDependentInputs,
+            DataFetchingEnvironment dataFetchingEnvironment
+    ) {
+        super.logRequest(LOGGER, this);
+
+        CompletableFuture<CommonResponseWithSuccessUpdateDocuments> responsePromise = TimedOutHandledPromiser.genPromise();
+
+        super.validateUserPromise(dataFetchingEnvironment).bindToResponsePromise(responsePromise).anyOf(Arrays.asList(AccessingEntity.values()))
+                .thenAccept(cachedTrustedToken -> {
+
+                    Optional<Client> optionalClient = clientRepository.findByIdAndActiveTrue(cachedTrustedToken.userCachedInfo.entityID);
+                    if (optionalClient.isEmpty()) {
+                        throw new ErrorOnProcessingRequestException(StatusCodes.Error.User.USER_NOT_FOUND);
+                    }
+                    Client holder = optionalClient.get();
+
+                    planSubscriptionService.updateHolderAndExtraDependentInformation(holderDocuments, extraDependentInputs, holder);
+
+                    CommonResponseWithSuccessUpdateDocuments response = new CommonResponseWithSuccessUpdateDocuments(StatusCodes.Success.User.UPDATED_HOLDER_AND_DEPENDENT_INFORMATION_SUCCESSFULLY);
+                    responsePromise.complete(response);
+                });
+        return responsePromise;
+    }
+
+}

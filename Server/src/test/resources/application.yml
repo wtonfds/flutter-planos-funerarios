@@ -1,0 +1,104 @@
+environment: test
+cep-autocomplete-url: https://viacep.com.br/ws/{cep}/json/
+
+mail:
+  reset-password-from: no-reply@vidaplano.com.br
+  reset-password-subject: Vida Plano - Senha temporária
+  reset-password-body: "Recentemente, você pediu para redefinir sua senha. Por favor, utilize a senha temporária para logar e alterar a senha temporária para uma senha pessoal.\nSenha temporária: <new_password>\nAtenciosamente,\nVidaPlano.com.br"
+
+push:
+  onesignal-url: https://onesignal.example.com/api/v1/notifications
+  onesignal-app-id: 4387d43e-0f5b-43c2-8b30-fa59a58b828f
+  onesignal-api-key: ExAmPlEkEy
+
+logging:
+  level:
+    br.com.monitoratec.farol: debug
+    org.hibernate.type.descriptor: trace
+    root: info
+
+sms:
+  url: http://sms.example.com/api
+  user: some-user
+  password: password
+  company: farol
+  cost_center: Nome_centro_de_custo
+
+ginfes:
+  url: http://homologacao.ginfes.com.br
+  wsdl-location: classpath:/wsdl/ginfes-homolog.wsdl
+  certificate-file: classpath:/certificates/farol.pfx
+  certificate-password: 1234
+
+spring:
+  datasource:
+    #Default settings for a local environment; they should not match real, production settings
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE
+  jpa:
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true
+    hibernate:
+      ddl-auto: none # Disabling validation in tests due to some syntax incompatibilities between H2 and PostgreSQL
+    show-sql: true
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    baseline-version: 1
+    ignore-future-migrations: false
+  jackson:
+    visibility:
+      FIELD: any
+  mail:
+    host: localhost
+    port: 3000
+    username:
+    password:
+    properties:
+      mail.smtp.auth: false
+      mail.smtp.starttls.enable: false
+
+graphql:
+  servlet:
+    mapping: /graphql
+    enabled: true
+    corsEnabled: true
+    subscriptions:
+      websocket:
+        path: /ssuubbssccrriippttiioonnss
+  playground:
+    mapping: /playground
+    endpoint: /graphql
+    subscriptionsEndpoint: /subscriptions
+    staticFolder.basePath: my-playground-resources-folder
+    enabled: true
+    pageTitle: Playground - Farol [${environment}]
+    cdn:
+      enabled: false
+      version: latest
+    settings:
+      editor.cursorShape: line
+      editor.fontFamily: "'Source Code Pro', 'Consolas', 'Inconsolata', 'Droid Sans Mono', 'Monaco', monospace"
+      editor.fontSize: 14
+      editor.reuseHeaders: true
+      editor.theme: dark
+      general.betaUpdates: false
+      prettier.printWidth: 80
+      prettier.tabWidth: 2
+      prettier.useTabs: false
+      request.credentials: omit
+      schema.polling.enable: true
+      schema.polling.endpointFilter: "*localhost*"
+      schema.polling.interval: 2000
+      schema.disableComments: true
+      tracing.hideTracingResponse: true
+    headers:
+      Authorization: PasteYourTokenHere
+    tabs:
+      - name: Examples Prefiled Tab
+        query: classpath:graphql/examples/exampleQueryFilled.graphql
+        variables: classpath:graphql/examples/variables.json
+        responses:
+          - classpath:graphql/examples/exampleResponse1.json

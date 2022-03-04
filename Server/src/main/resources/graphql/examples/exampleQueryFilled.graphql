@@ -1,0 +1,1143 @@
+mutation loginWithCPF {
+    login(
+        loginViaCPFInfo: {
+            cpf: "12345678909",
+            password: "1234Mudar"
+        },
+        loggingInAs: CLIENT
+
+    ) {
+        ...CommonResponseForLoginFD
+    }
+}
+
+mutation loginWithCPFFarol {
+    login(
+        loginViaCPFInfo: {
+            cpf: "12345678909",
+            password: "1234Mudar"
+        },
+        loggingInAs: FAROL_USER
+
+    ) {
+        ...CommonResponseForLoginFD
+    }
+}
+
+query listCurrentSubscribedPlan {
+    listCurrentSubscribedPlan {
+        commonResponse{...CommonResponseFD}
+        subscriptionPlanDTO{...PlanSubscriptionFD}
+    }
+}
+
+query getClientByCPF {
+    getClientByCPF(cpf: "860.021.950-76") { commonResponse{...CommonResponseFD} genericClient{...ClientFD} }
+}
+
+query getClientIsOnGracePeriod {
+    getClientIsOnGracePeriod { commonResponse{...CommonResponseFD} status}
+}
+
+query getContractUrl {
+    getContractUrl(subscriptionPlanId: 1) {
+        commonResponse{...CommonResponseFD}
+        url
+    }
+}
+
+mutation chargeClient {
+    chargeClient(clientId: 1) {
+        commonResponse{...CommonResponseFD}
+    }
+}
+
+query getPaymentSlipUrl {
+    getPaymentSlipUrl(
+        month: 1,
+        year: 2020
+    ) {
+        commonResponse{...CommonResponseFD}
+        url
+    }
+}
+
+mutation registerNewAccredited {
+    registerNewAccredited(
+        accreditedInfo: {
+            category: "teste",
+            cnpj: "4342432",
+            couponOrigin: "Farol",
+            site: "www.testAccreditedSite.com.br/mySite",
+            name: "JS Empreendimentos",
+            subcategory: "testando",
+            telephone: "153425325",
+            active: true
+            logo: [1, 2]
+        }
+        addressInput: {
+            zipCode: "456"
+            street: "r. das aguas"
+            number: "345"
+            complement: "qwer"
+            neighborhood: "zxcv"
+            city: "poiu"
+            province: "lkjh"
+            country: "Brasil"
+        }
+    ) {
+        commonResponse {...CommonResponseFD}
+        genericAccredited {...GenericAccredittedFD}
+    }
+}
+
+mutation registerNewProduct {
+    registerNewProduct(
+        productInput: {accreditedId: 1, discount: "10%", dueDate: "20200101", name: "Teste new product"}
+    ) {
+        commonResponse {...CommonResponseFD}
+        productDTO{...GenericProductFD}
+    }
+}
+
+mutation updateAccredited {
+    updateAccreditedInfo(
+        id: 12
+        accreditedInfo: {
+            category: "teste",
+            cnpj: "4342432",
+            couponOrigin: "Farol",
+            site: "www.updatedSite.com",
+            name: "JS Empreendimentos",
+            subcategory: "testando",
+            telephone: "153425325",
+            active: true
+            logo: [1, 2]
+        }
+        addressInput: {
+            zipCode: "456"
+            street: "r. das aguas"
+            number: "345"
+            complement: "qwer"
+            neighborhood: "zxcv"
+            city: "poiu"
+            province: "lkjh"
+            country: "Brasil"
+        }
+    ) {
+        commonResponse {...CommonResponseFD}
+        genericAccredited {...GenericAccredittedFD}
+    }
+}
+
+mutation registerNewPlan {
+    registerNewPlan(planInput: {
+        name: "Plano 1",
+        active: true,
+        gracePeriod: "90",
+        gracePeriodExtraDependents: "180"
+        maxExtraDependentsAmount: 8,
+        adhesionContract: "<html><body><h1>Contrato com a farol</h1><h5>Voce está coberto pelo seguro da farol</h5></body></html>",
+        planPriceTableId: 1,
+        upgradePriceTableId: 2
+        dependentPriceTableId: 3
+        contractUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
+    }
+    ){
+        commonResponse {...CommonResponseFD}
+        planDTO {...PlanFD}
+    }
+}
+
+mutation registerNewPlanPriceTable {
+    registerNewPlanPriceTable(
+        planPriceTable: {
+            name: "Example table"
+            ageRanges: [
+                {startAge: 0, endAge: 49, value: 100000}
+                {startAge: 50, endAge: 100, value: 200000}
+            ]
+        }
+    ) {
+        commonResponse{...CommonResponseFD}
+        priceTable{...PlanPriceTableFD}
+    }
+}
+
+mutation registerNewUpgradePriceTable {
+    registerNewUpgradePriceTable(
+        upgradePriceTable: {
+            name: "Example table"
+            ageRanges: [
+                {startAge: 0, endAge: 49, value: 100000}
+                {startAge: 50, endAge: 100, value: 200000}
+            ]
+        }
+    ) {
+        commonResponse{...CommonResponseFD}
+        priceTable{...UpgradePriceTableFD}
+    }
+}
+
+mutation registerNewDependentPriceTable {
+    registerNewDependentPriceTable(
+        dependentPriceTable: {
+            name: "Example table"
+            ageRanges: [
+                {startAge: 0, endAge: 49, value: 100000}
+                {startAge: 50, endAge: 100, value: 200000}
+            ]
+        }
+    ) {
+        commonResponse{...CommonResponseFD}
+        priceTable{...DependentPriceTableFD}
+    }
+}
+
+mutation subscribeToPlan {
+    registerNewPlanSubscription(
+        planId: 1,
+        paymentType: PAYMENT_SLIP,
+        paymentDay: 15,
+        dependents: [
+            { clientType: EXTRA_DEPENDENT, name: "Fluxo novo dependente extra.", birthday: "19950405" }
+            { clientType: EXTRA_DEPENDENT, name: "Fluxo novo outro dependente extra.", birthday: "19950405" }
+        ],
+        address: {
+            zipCode: "38440122"
+            street: "r. das aguas"
+            number: "345"
+            complement: "qwer"
+            neighborhood: "zxcv"
+            city: "poiu"
+            province: "MG"
+            country: "Brasil"
+        }) {
+        commonResponse{...CommonResponseFD}
+        subscriptionPlanDTO{...PlanSubscriptionFD}
+    }
+}
+
+mutation updateHolderAndExtraDependentsInformation {
+    updateHolderAndExtraDependentsInformation(
+        holderDocuments: [
+            {documentClientTypeDTO: RG, image: "MTIz"},
+            {documentClientTypeDTO: CPF, image: "MTIz"},
+            {documentClientTypeDTO: CHECKING_ADDRESS, image: "MTIz"}
+        ]
+        extraDependentsInformation: [
+            {id: 9, telephone: "349999929296", cpf: "256.453.820-72", gender: MALE, rg: "18887875", documents: [{documentClientTypeDTO: CPF, image: "MTIz"}, {documentClientTypeDTO: CHECKING_ADDRESS, image: "MTIz"}]}
+            {id: 10, telephone: "898989898998", cpf: "201.700.240-24", gender: FEMALE, rg: "333232329", documents: [{documentClientTypeDTO: RG, image: "MTIz"}, {documentClientTypeDTO: CNH, image: "MTIz"}]}
+        ]
+    ) {
+        commonResponse{...CommonResponseFD}
+    }
+}
+
+# Change payment mutations
+mutation updateCreditCard {
+    updateCreditCard(
+        card: {
+            numberToken: "dfe05208b105578c070f806c80abd3af09e246827d29b866cf4ce16c205849977c9496cbf0d0234f42339937f327747075f68763537b90b31389e01231d4d13c",
+            cardholderName: "JOAO DA SILVA",
+            expirationMonth: "12",
+            expirationYear: "20",
+        }
+    ) { ...CommonResponseFD }
+}
+
+mutation changeCreditCardToPaymentSlip {
+    changeCreditCardToPaymentSlip(paymentDay: 10) { ...CommonResponseFD }
+}
+
+
+mutation changePaymentSlipToCreditCard {
+    changePaymentSlipToCreditCard(
+        card: {
+            numberToken: "dfe05208b105578c070f806c80abd3af09e246827d29b866cf4ce16c205849977c9496cbf0d0234f42339937f327747075f68763537b90b31389e01231d4d13c",
+            cardholderName: "JOAO DA SILVA",
+            expirationMonth: "12",
+            expirationYear: "20",
+            securityCode: "1234"
+        }
+    ) { ...CommonResponseFD }
+}
+
+mutation removeDependents {
+    removeDependents(dependents: [3, 4, 5, 6]) {
+        commonResponse{...CommonResponseFD}
+        dependents{...ClientFD}
+    }
+}
+
+mutation updateSubscribedPlanAddress {
+    updatePlanSubscriptionAddress(
+        address: {
+            zipCode: "456"
+            street: "r. das aguas"
+            number: "345"
+            complement: "qwer"
+            neighborhood: "zxcv"
+            city: "poiu"
+            province: "lkjh"
+            country: "Brasil"
+        }) {
+        commonResponse{...CommonResponseFD}
+        subscriptionPlanDTO{...PlanSubscriptionFD}
+    }
+}
+
+mutation reactivateContract {
+    reactivateContract(subscribedPlanId: 4, commentary: "O contrato foi reativado pois o cliente não morreu") {
+        commonResponse{...CommonResponseFD}
+        subscriptionPlanDTO{...PlanSubscriptionFD}
+    }
+}
+
+mutation unsubscribeFromContract {
+    unsubscribeFromContract{
+        commonResponse{...CommonResponseFD}
+        subscriptionPlanDTO{...PlanSubscriptionFD}
+    }
+}
+
+mutation updatePlan {
+    updatePlan(id: 2, planInput: {name: "Plano 2", contractUrl: "updateContractUrl.com/something.pdf"}){
+        commonResponse {...CommonResponseFD}
+        planDTO {...PlanFD}
+    }
+}
+
+query listPlans {
+    listPlans {
+        commonResponse {...CommonResponseFD}
+        paginationInfo {...PaginationInfoFD}
+        plansList{...PlanFD}
+    }
+}
+
+query getCurrentLoggedClient {
+    getCurrentLoggedClient{
+        ...CommonResponseForClientFD
+    }
+}
+
+query getCurrentLoggedFarolUser {
+    getCurrentLoggedFarolUser{
+        ...CommonResponseForFarolUserFD
+    }
+}
+
+mutation registerNewClient {
+    registerNewClient(
+        loginViaEmailData:{
+            email: "something2@gmail.com",
+            password: "1234Mudar"}
+        birthDay: "20000101"
+        name: "Who dueto"
+        telephone: "(16) 9 9999-9999"
+        cpf: "12345678909"
+        # rg not mandatory
+        rg: "18480070"
+        gender: FEMALE
+    ) {
+        commonResponse {... CommonResponseFD}
+        genericClient {... ClientFD}
+    }
+}
+
+mutation registerNewTrialUser {
+    registerNewTrialUser(email: "trial@user.com", name: "Trial User Example") {
+        commonResponse { ...CommonResponseFD }
+        trialUser { ...TrialUserFD }
+    }
+}
+
+mutation registerClientDependents {
+    registerClientDependents(
+        dependents: [
+            { clientType: CHILD, name: "Filho", birthday: "20101111", cpf: "860.021.950-76", rg: "18480070", gender: FEMALE, documentsInput: [{ documentClientTypeDTO: RG, image: "MTIz" }] },
+            { clientType: SPOUSE, name: "Esposa", birthday: "19971010", cpf: "080.911.730-40", telephone: "34992221951", rg: "19293818", gender: MALE }
+            { clientType: EXTRA_DEPENDENT, name: "Dependente Extra", birthday: "19950405", cpf: "364.309.340-39", rg: "28928191", gender: MALE, documentsInput: [{ documentClientTypeDTO: CHECKING_ADDRESS, image: "MTIz" }] }
+            { clientType: EXTRA_DEPENDENT, name: "Outro Dependente Extra", birthday: "19950405", cpf: "558.101.970-35", rg: "389834492", gender: FEMALE }
+        ]
+    ) {
+        commonResponse {... CommonResponseFD}
+        dependents {...ClientFD}
+    }
+}
+
+mutation updateDependentInformation {
+    updateDependentInformation(
+        cpf: "860.021.950-76",
+        clientDependentUpdateInput: {
+            telephone: "3400000000"
+            rg: "00001010"
+            name: "UPDATED DEPENDENT"
+            email: "updated@dependent.com"
+            passwordHash: "hashedPassword"
+            gender: FEMALE
+        }
+    ) {
+        commonResponse{...CommonResponseFD}
+        genericClient{...ClientFD}
+    }
+}
+
+mutation registerNewFarolUser {
+    registerNewFarolUser(
+        loginViaEmailData:{email: "something@gmail.com", password: "1234Mudar"}
+        name: "Who dueto"
+        telephone: "(16) 9 9999-9999"
+        cpf: "12345678909"
+        permissions: [ACCREDITED]
+    ) {
+        commonResponse {... CommonResponseFD}
+        genericFarolUser {... FarolUserFD}
+    }
+}
+
+mutation updateClientInfo {
+    updateClientInfo(
+        email: "something@gmail.com"
+        name: "Who dueto 2"
+        telephone: "(16) 9 9999-8888"
+        birthDay: "19900102"
+        rg: "80008800"
+        oneSignalPlayerId: "6392d91a-b206-4b7b-a620-cd68e32c3a76"
+        gender: MALE
+    ) {
+        commonResponse {... CommonResponseFD}
+        genericClient {... ClientFD}
+    }
+}
+
+mutation updateClientLuckNumber {
+    updateClientLuckNumber(
+        id: 1,
+        luckNumber: "12345"
+    ) {
+        commonResponse {... CommonResponseFD}
+        genericClient {... ClientFD}
+    }
+}
+
+mutation updateClientPassword {
+    updateClientPassword(
+        passwords:{
+            password: "123Mudar",
+            oldPassword: "1234Mudar"
+        }
+    ) {
+        commonResponse {... CommonResponseFD}
+        genericClient {... ClientFD}
+    }
+}
+
+mutation updateFarolUserInfo {
+    updateFarolUserInfo(
+        email: "teste@gmail.com"
+        passwords:{
+            password: "123Mudar",
+            oldPassword: "1234Mudar"
+        }
+        name: "teste name"
+        permissions: [ACCREDITED,GENERAL_PARAMETERIZATION]
+    ) {
+        commonResponse {... CommonResponseFD}
+        genericFarolUser {...FarolUserFD}
+    }
+}
+
+mutation disableFarolUser {
+    disableFarolUser(
+        id: 3
+    ) {
+        commonResponse {... CommonResponseFD}
+        genericFarolUser {...FarolUserFD}
+    }
+}
+
+mutation updateClientIsAlive {
+    updateClientIsAlive(id: 2){
+        commonResponse{...CommonResponseFD}
+        genericClient{...ClientFD}
+    }
+}
+
+query listFarolUsers{
+    listFarolUsers(
+        paginate:{
+            numberOfRecordsByPage: 50
+            pageNumber: 0
+        }
+    ){
+        commonResponse {...CommonResponseFD}
+        paginationInfo {...PaginationInfoFD}
+        farolUsers {...FarolUserFD}
+    }
+}
+
+query listClients{
+    listHolders(
+        # If id is null returns all clients (holders)
+        id: 2
+    ){
+        commonResponse{...CommonResponseFD}
+        clients{...ClientFD}
+    }
+}
+
+query autoCompleteCep {
+    autoCompleteCep(cep: "13566-534") {
+        ... AddressFD
+    }
+}
+
+query getGeneralParameterization {
+    getGeneralParameterization {
+        commonResponse {... CommonResponseFD}
+        generalParameterizationDTO {... GeneralParameterizationFD}
+    }
+}
+
+mutation updateGeneralParameterization {
+    updateGeneralParameterization(generalParameterizationInfo: {
+        tem: false,
+        timeToUpdateFinancialData: 25,
+        timeToBlockAccount: 22,
+        nfIss: "dsadsa",
+        nfGissUser: "dsadas",
+        nfGissURL: "www.testinho.com",
+        nfGissPassword: "dads",
+        nfGissDueDate: "dasdsa",
+        loyaltyCardNumberRule: "dsadasfa",
+        loyaltyCard: false,
+        lotteryURL: "www.lottery.com",
+        lotteryAutoDisclosure: false,
+        farolTelephone:"34992221951",
+        accreditedLoginWithCNPJ: false,
+        accreditedCouponDueDate: "20250404",
+        SLA: "fsadsads",
+        farolEmail: "email@farol.com",
+        funeralAssistancePhone: "3492221951"
+        aliquot: "0.05",
+        planBenefits: "Plan benefits",
+        planBenefitsDetails: "Plan benefits details"
+    }) {
+        commonResponse {... CommonResponseFD}
+        generalParameterizationDTO {...GeneralParameterizationFD}
+    }
+}
+
+query listAccreditedUsers{
+    listAccreditedUsers(
+        paginate: {
+            numberOfRecordsByPage: 50
+            pageNumber: 0
+        }
+    ){
+        commonResponse{...CommonResponseFD}
+        paginationInfo{...PaginationInfoFD}
+        accreditedUsers{...GenericAccredittedFD}
+
+    }
+}
+
+query listLotteryNumbers{
+    listLotteryNumbers(
+        paginate: {
+            numberOfRecordsByPage: 50
+            pageNumber: 0
+        }
+    ){
+        commonResponse{...CommonResponseFD}
+        paginationInfo{...PaginationInfoFD}
+        genericLotteryNumbers{...LotteryNumbersFD}
+    }
+}
+
+query listProductsByAccreditedId{
+    listProductsByAccreditedId(accreditedId: 1, paginate: { numberOfRecordsByPage: 50, pageNumber: 0}){
+        commonResponse{...CommonResponseFD}
+        paginationInfo{...PaginationInfoFD}
+        productList{...GenericProductFD}
+    }
+}
+
+mutation updatePlanPriceTable {
+    updatePlanPriceTable(
+        id: 2
+        planPriceTable: {
+            name: "Updated table"
+            ageRanges: [
+                {startAge: 0, endAge: 120, value: 200000}
+            ]
+        }
+    ) {
+        commonResponse{...CommonResponseFD}
+        priceTable{...PlanPriceTableFD}
+    }
+}
+
+query listPlanPriceTables {
+    listPlanPriceTables(
+        paginate: {
+            numberOfRecordsByPage: 3
+            pageNumber: 2
+        }
+    ) {
+        commonResponse{...CommonResponseFD}
+        paginationInfo{...PaginationInfoFD}
+        priceTables{...PlanPriceTableFD}
+    }
+}
+
+query findPlanPriceTable {
+    findPlanPriceTable(
+        id: 2
+    ) {
+        commonResponse{...CommonResponseFD}
+        priceTable{...PlanPriceTableFD}
+    }
+}
+
+mutation registerNewCampaign {
+    registerNewCampaign(
+        campaign: {
+            name: "Example table"
+            startDate: "20200101"
+            endDate: "20221231"
+            recurrenceType: DAILY
+            recurrence: 2
+            timeToSend: "15:30:00.000"
+            message: "Example message"
+            deliveryMode: NOTIFICATION
+            inactiveClients: false
+            birthdayClients: true
+            childrenWithAge: false
+            expiringContracts: true
+            withoutCoupons: false
+            withoutTem: true
+            withoutFuneralAssistance: false
+        }
+    ) {
+        commonResponse{...CommonResponseFD}
+        campaign{...CampaignFD}
+    }
+}
+
+mutation updateCampaign {
+    updateCampaign(
+        id: 2
+        campaign: {
+            name: "Updated table"
+            startDate: "20191031"
+            endDate: "20231031"
+            recurrenceType: MONTHLY
+            recurrence: 10
+            timeToSend: "12:45:00.000"
+            message: "Updated message"
+            deliveryMode: EMAIL
+            inactiveClients: true
+            birthdayClients: false
+            childrenWithAge: true
+            expiringContracts: false
+            withoutCoupons: true
+            withoutTem: false
+            withoutFuneralAssistance: true
+        }
+    ) {
+        commonResponse{...CommonResponseFD}
+        campaign{...CampaignFD}
+    }
+}
+
+query listCampaigns {
+    listCampaigns(
+        paginate: {
+            numberOfRecordsByPage: 3
+            pageNumber: 2
+        }
+    ) {
+        commonResponse{...CommonResponseFD}
+        paginationInfo{...PaginationInfoFD}
+        campaigns{...CampaignFD}
+    }
+}
+
+query findCampaign {
+    findCampaign(
+        id: 2
+    ) {
+        commonResponse{...CommonResponseFD}
+        campaign{...CampaignFD}
+    }
+}
+
+mutation updateUpgradePriceTable {
+    updateUpgradePriceTable(
+        id: 2
+        upgradePriceTable: {
+            name: "Updated table"
+            ageRanges: [
+                {startAge: 0, endAge: 120, value: 200000}
+            ]
+        }
+    ) {
+        commonResponse{...CommonResponseFD}
+        priceTable{...UpgradePriceTableFD}
+    }
+}
+
+mutation updateDependentPriceTable {
+    updateDependentPriceTable(
+        id: 3
+        dependentPriceTable: {
+            name: "Updated table"
+            ageRanges: [
+                {startAge: 0, endAge: 120, value: 200000}
+            ]
+        }
+    ) {
+        commonResponse{...CommonResponseFD}
+        priceTable{...DependentPriceTableFD}
+    }
+}
+
+query listUpgradePriceTables {
+    listUpgradePriceTables(
+        paginate: {
+            numberOfRecordsByPage: 3
+            pageNumber: 2
+        }
+    ) {
+        commonResponse{...CommonResponseFD}
+        paginationInfo{...PaginationInfoFD}
+        priceTables{...UpgradePriceTableFD}
+    }
+}
+
+query findUpgradePriceTable {
+    findUpgradePriceTable(
+        id: 2
+    ) {
+        commonResponse{...CommonResponseFD}
+        priceTable{...UpgradePriceTableFD}
+    }
+}
+
+query listDependentPriceTables {
+    listDependentPriceTables(
+        paginate: {
+            numberOfRecordsByPage: 3
+            pageNumber: 2
+        }
+    ) {
+        commonResponse{...CommonResponseFD}
+        paginationInfo{...PaginationInfoFD}
+        priceTables{...DependentPriceTableFD}
+    }
+}
+
+query findDependentPriceTable {
+    findDependentPriceTable(
+        id: 2
+    ) {
+        commonResponse{...CommonResponseFD}
+        priceTable{...DependentPriceTableFD}
+    }
+}
+
+mutation resetFarolUserPassword {
+    resetFarolUserPassword(
+        input: {
+            cpf: "12345678909"
+            email: "something@gmail.com"
+        }
+    ) {
+        commonResponse{...CommonResponseFD}
+    }
+}
+
+mutation updateMaterializedViews {
+    updateMaterializedViews{
+        ... CommonResponseFD
+    }
+}
+
+mutation updateFarolUserPassword {
+    updateFarolUserPassword(id: 1, password: "1234mudar") {
+        commonResponse{...CommonResponseFD}
+    }
+}
+
+query getGetNetToken {
+    getGetNetToken {
+        commonResponse{...CommonResponseFD}
+        getNetToken
+    }
+}
+
+mutation upgradeToNewPlan {
+    upgradeToNewPlan(
+        addressInput: {
+            zipCode: "456"
+            street: "r. das aguas"
+            number: "345"
+            complement: "qwer"
+            neighborhood: "zxcv"
+            city: "poiu"
+            province: "lkjh"
+            country: "Brasil"
+        }
+        dependents: [
+            { name: "Upgraded dep1", birthday: "19900101", clientType: EXTRA_DEPENDENT },
+            { name: "Upgraded dep2", birthday: "19850101", clientType: EXTRA_DEPENDENT }
+        ]
+        paymentType: PAYMENT_SLIP,
+        paymentSlipDate: 5
+        planId: 1){
+        commonResponse{... CommonResponseFD}
+        subscriptionPlanDTO{... PlanSubscriptionFD}
+    }
+}
+
+query listPaymentMonths {
+    listPaymentMonths {
+        commonResponse{... CommonResponseFD}
+        paymentMonthList{... PaymentMonthFD}
+    }
+}
+
+# lottery
+
+mutation approveLotteryNumbers {
+    approveLotteryNumbers(id: 1) {... CommonResponseFD }
+}
+
+mutation fetchLotteryNumbers{
+    fetchLotteryNumbers{
+        ... CommonResponseFD
+    }
+}
+
+mutation sendSmsToConfirmLogin {
+    sendSmsToConfirmLogin(cpf: "13158722990") { commonResponse{...CommonResponseFD} }
+}
+
+mutation checkCodeToConfirmLogin {
+    checkCodeToConfirmLogin(cpf: "13158722690", code: "123456") { commonResponse { ...CommonResponseFD } }
+}
+
+mutation resetClientPassword {
+    resetClientPassword(
+        clientCpf: "12345678909"
+        email: "something2@gmail.com"
+        birthday: "20000101"
+        recoveryPasswordType: SMS
+    ) {
+        commonResponse{...CommonResponseFD}
+    }
+}
+
+# If the clientIds array is empty OR cant find any onesignal register, the push notification will be sent to all
+# active users.
+mutation sendPushNotification{
+    sendPushNotification(clientIds: [1, 2], message: "Enviando push") {
+        commonResponse{...CommonResponseFD}
+        jsonResponse
+    }
+}
+
+mutation updateOneSignalPreferences{
+    updateOneSignalPreferences(oneSignalPreferences: [ACCREDITED, DEPENDENT_ACTIVITY, INSURANCE, LOTTERY_DRAW]) {
+        commonResponse{...CommonResponseFD}
+        preferences
+    }
+}
+
+query getClientOneSignalPreferences{
+    getClientOneSignalPreferences {
+        commonResponse{...CommonResponseFD}
+        preferences
+    }
+}
+
+query listPlanDependents {
+    listPlanDependents{
+        commonResponse{...CommonResponseFD}
+        dependents{...ClientFD}
+    }
+}
+
+query getPaymentSlip {
+    getPaymentSlip(
+        month: 1,
+        year: 2020
+    ) {
+        commonResponse{...CommonResponseFD}
+        paymentSlipId
+    }
+}
+
+#query getUserTemCard {
+#    getUserTemCard{
+#        commonResponse{...CommonResponseFD}
+#        cardDataDTO{...TemCardFD}
+#    }
+#}
+
+#mutation cancelClientOnTem{
+#    cancelClientOnTem(id: 1){
+#        commonResponse{...CommonResponseFD}
+#    }
+#}
+
+mutation registerNewPaymentSlip {
+    registerNewPaymentSlip(month: 1, year: 2020) {
+        ...CommonResponseFD
+    }
+}
+
+mutation removeGraceDays {
+    removeGraceDays(cpf: "860.021.950-76") {
+        ...CommonResponseForClientFD
+    }
+}
+
+mutation sendAuthToken {
+    sendAuthToken(authToken: "1234") {
+        commonResponse{...CommonResponseFD}
+        genericClient{...ClientFD}
+    }
+}
+
+mutation requestNewAuthToken {
+    requestNewAuthToken{
+        ...CommonResponseFD
+    }
+}
+
+mutation generateDischargeStatementForClient {
+    generateDischargeStatementForClient(
+        clientId: 2,
+        dischargeStatement: "<html><body><h2><p align='center'>DECLARAÇÃO DE QUITAÇÃO DE DÉBITOS</p></h2><p>Empresa: $company_name</p><p>Endereço: $company_address</p><p>CNPJ: $company_cnpj</p><p align='justify'>A empresa acima identificada, certifica que o cliente $client_name inscrito no CPF: $client_cpf, está quite com débitos de pagamentos de serviços contratados, relativamente ao período de 12/01/2020 a 15/01/2020</p><p align='justify'>Esta declaração substitui, para a comprovação do cumprimento dasobrigações do consumidor, as quitações dos faturamentos mensais dosdébitos do ano a que se refere e dos anos anteriores.</p><p align='right'>Esta declaração é emitida para cumprimento da Lei 12.007/2009.</p><p align='center'>Ribeirão Preto / SP - $local_date</p></body></html>",
+        dateFrom: "20200101"
+        dateTo: "20200404"
+    ) {
+        commonResponse{...CommonResponseFD}
+        dischargeStatementURL
+    }
+}
+
+query getClientPaymentSituation {
+    getClientPaymentSituation(clientId: 2) {
+        commonResponse{...CommonResponseFD}
+        paymentSituation{...PaymentSituationFD}
+    }
+}
+
+query getPaymentDays {
+    getPaymentDays{
+        commonResponse{...CommonResponseFD}
+        paymentDays
+    }
+}
+
+mutation registerPaymentDiscounts {
+    registerPaymentDiscounts(discounts: [
+        {month: 1, discount: 0.0}
+        {month: 2, discount: 0.05}
+        {month: 3, discount: 0.07}
+        {month: 4, discount: 0.09}
+        {month: 5, discount: 0.10}
+        {month: 6, discount: 0.12}
+        {month: 7, discount: 0.15}
+        {month: 8, discount: 0.21}
+        {month: 9, discount: 0.22}
+        {month: 10, discount: 0.23}
+        {month: 11, discount: 0.24}
+        {month: 12, discount: 0.30}
+    ]) {
+        ...CommonResponseFD
+    }
+}
+
+query listPaymentDiscounts {
+    listPaymentDiscounts{
+        commonResponse{...CommonResponseFD}
+        discounts{...DiscountFD}
+    }
+}
+
+mutation anticipateParcel {
+    anticipateParcel(parcelQuantity: 10)
+    {
+        ...CommonResponseFD
+    }
+}
+
+query getAvailableAnticipationParcels {
+    getAvailableAnticipationParcels{
+        months,
+        commonResponse{...CommonResponseFD}
+    }
+}
+
+# if only want to list the company info without changing data, just use "{}" as companyInfo param
+mutation updateCompanyInfo {
+    updateCompanyInfo(companyInfo: {nfMunicipalTaxCode: "10"})
+    {
+        commonResponse{...CommonResponseFD}
+        companyDTO{...CompanyInfoFD}
+    }
+}
+
+mutation createPaymentMonth {
+    createPaymentMonth {...CommonResponseFD}
+}
+
+# list all categories in database frl_category without pagination logged by farol_user or client
+query listCategories {
+    listCategories {
+        commonResponse{...CommonResponseFD}
+        categories{...CategoryFD}
+    }
+}
+
+query getPlanBenefits {
+    getPlanBenefits {
+        commonResponse {...CommonResponseFD}
+        planBenefits
+    }
+}
+
+# fragment SystemUserFD on GenericUserDTO
+
+fragment ClientFD on ClientDTO {
+    id, email, name, rg, birthday, cpf, telephone, alive, clientType, createdAt, active, deleted, authorized, temporaryPassword, oneSignalPlayerId, gracePeriod, dependents{...DependentFD}, documents{...DocumentFD}, gender, luckNumber
+}
+
+fragment TrialUserFD on TrialUserDTO {
+    email, name
+}
+
+fragment DependentFD on DependentDTO {
+    id, email, name, rg, birthday, cpf, telephone, alive, clientType, createdAt, active, deleted, temporaryPassword, oneSignalPlayerId, documents{...DocumentFD}, gender
+}
+
+fragment DocumentFD on DocumentDTO {
+    id, urlDocument, documentClientType, active
+}
+
+fragment FarolUserFD on FarolUserDTO {
+    id, email, name, telephone, agentNumber, active, isTemporaryPassword, cpf, permissionTypeDTOList,
+}
+
+fragment FarolUserBasicFD on FarolUserBasicDTO {
+    id, email, name, telephone, agentNumber, active, isTemporaryPassword, cpf
+}
+
+fragment AddressFD on AddressDTO{
+    zipCode, street, number, complement, neighborhood, city, province, country
+}
+
+fragment GenericUserFD on GenericUserDTO {
+    client {... ClientFD}
+    farolUser {... FarolUserFD}
+}
+
+fragment CommonResponseFD on CommonResponse {
+    isError, statusCode, description
+}
+
+fragment CommonResponseForLoginFD on CommonResponseForLogin {
+    commonResponse {... CommonResponseFD}
+    authToken, genericUser {... GenericUserFD}
+}
+
+fragment CommonResponseForClientFD on CommonResponseForClient {
+    commonResponse {... CommonResponseFD}
+    genericClient {... ClientFD}
+}
+
+fragment CommonResponseForFarolUserFD on CommonResponseForFarolUser {
+    commonResponse {... CommonResponseFD}
+    genericFarolUser {... FarolUserFD}
+}
+
+fragment PaginationInfoFD on PaginationInfo {
+    numberOfRecordsByPage, pageNumber, totalRecords
+}
+
+fragment GenericAccredittedFD on genericAccredited {
+    id, cnpj, name, category, subcategory, couponOrigin, code, logo, site, telephone, active, address {... AddressFD}
+}
+
+fragment GenericProductFD on GenericProduct {
+    id, accreditedDTO{...GenericAccredittedFD}, farolUserBasicDTO{...FarolUserBasicFD}, discount, dueDate, name
+}
+
+fragment GeneralParameterizationFD on generalParameterizationDTO {
+    SLA, accreditedCouponDueDate, accreditedLoginWithCNPJ, farolTelephone, id, lotteryAutoDisclosure, lotteryURL,
+    loyaltyCard, loyaltyCardNumberRule, nfGissDueDate, nfGissPassword, nfGissURL, nfGissUser, nfIss, tem, timeToBlockAccount,
+    timeToUpdateFinancialData, farolEmail, funeralAssistancePhone, aliquot, planBenefits, planBenefitsDetails
+}
+
+fragment CompanyInfoFD on CompanyDTO {
+    city, cnpj, complement, country, municipalRegistry, name, neighborhood, nfDiscrimination, nfItemCode, nfMunicipalTaxCode,
+    number, province, street, telephone, type, webSite, zipCode
+}
+
+fragment PlanFD on PlanDTO {
+    id, active, gracePeriod, gracePeriodExtraDependents,  maxExtraDependentsAmount, name, adhesionContract, planPriceTableDTO{...PlanPriceTableFD}, upgradePriceTableDTO{...UpgradePriceTableFD}, dependentPriceTableDTO{...DependentPriceTableFD}
+}
+
+fragment PlanPriceTableFD on PlanPriceTableDTO {
+    id, name, ageRanges {...PriceTableAgeRangeFD}
+}
+
+fragment PlanSubscriptionFD on PlanSubscriptionDTO {
+    id, adhesionContract, subscribedIn, value, clientNumber, addressDTO{...AddressFD}, clientDTO{...ClientFD}, planDTO{...PlanFD}, gracePeriod, active, luckNumber, isDefault, cancelledIn, paymentType, totalValue, anticipationHaveDependent
+}
+
+fragment UpgradePriceTableFD on UpgradePriceTableDTO {
+    id, name, ageRanges {...PriceTableAgeRangeFD}
+}
+
+#fragment TemCardFD on TemCardDTO {
+#    cnpjCpf, codigoD, dataAquisicao, dataUltStatus, descricaoD, numeroCartao, sexo, status
+#}
+
+fragment DependentPriceTableFD on DependentPriceTableDTO {
+    id, name, ageRanges {...PriceTableAgeRangeFD}
+}
+
+fragment PriceTableAgeRangeFD on PriceTableAgeRangeDTO {
+    id, startAge, endAge, value
+}
+
+fragment LotteryNumbersFD on LotteryNumbersDTO{
+    id, originalNumber1, originalNumber2, originalNumber3, originalNumber4, originalNumber5, generatedNumbers, drawDay, approvedBy{...FarolUserBasicFD}
+}
+
+fragment CampaignFD on CampaignDTO {
+    id, name, startDate, endDate, recurrenceType, recurrence, timeToSend, message, deliveryMode, inactiveClients, birthdayClients, childrenWithAge, expiringContracts, withoutCoupons, withoutTem, withoutFuneralAssistance
+}
+
+fragment PaymentSituationFD on PaymentSituationDTO {
+    status, paymentType, liquidationDate, month, year, value
+}
+
+fragment DiscountFD on DiscountDTO {
+    discount, month
+}
+
+fragment PaymentMonthFD on PaymentMonthDTO {
+    month, paid, year, dueDate, isOverdue
+}
+
+fragment CategoryFD on CategoryDTO {
+    id, name
+}
